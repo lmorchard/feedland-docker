@@ -10,7 +10,7 @@ services:
       - "${MYSQL_PORT:-3306}:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+      - ./feedlandInstall-main/docs/setup.sql:/docker-entrypoint-initdb.d/01-schema.sql:Z
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
@@ -59,7 +59,7 @@ services:
       - "${FEEDLAND_PORT:-1452}:1452"
       - "${FEEDLAND_WEBSOCKET_PORT:-1462}:1462"
     volumes:
-      - ./config.json:/app/config.json:ro
+      - ./config.json:/app/config.json:Z
     depends_on:
       mysql:
         condition: service_healthy

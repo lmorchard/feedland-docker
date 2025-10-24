@@ -5,13 +5,15 @@ WORKDIR /app
 # Copy package files
 COPY feedlandInstall-main/package*.json ./
 
-# Install dependencies
-RUN npm install
+# Install dependencies with legacy peer deps to handle older packages
+RUN npm install --legacy-peer-deps
+
+# Install missing @babel/runtime that wpcom needs but doesn't declare properly
+RUN npm install @babel/runtime --legacy-peer-deps
 
 # Copy application files
 COPY feedlandInstall-main/feedland.js ./
 COPY feedlandInstall-main/emailtemplate.html ./
-COPY config.json ./
 
 # Expose the application port and websocket port
 EXPOSE 1452 1462

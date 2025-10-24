@@ -44,8 +44,10 @@ This directory contains a complete Docker-based setup for running FeedLand local
 
 1. Visit http://localhost:1452
 2. Click "Sign up" and create your account
-3. Check MailHog at http://localhost:8025 for the confirmation email
-4. Click the confirmation link
+3. Check MailHog at http://localhost:8025 for the confirmation email (it should appear within seconds)
+4. Click the confirmation link in the email
+
+**Note**: MailHog captures all emails sent by FeedLand, so you can use any email address during testing - you don't need a real email account.
 
 ## Configuration
 
@@ -165,15 +167,16 @@ docker compose up minio-init
 
 ```
 feedland/
-├── feedlandInstall-main/     # Unpacked from main.zip (original files)
-│   ├── config.json           # Original config (not used)
-│   ├── feedland.js
-│   ├── package.json
+├── feedlandInstall-main/     # Unpacked from main.zip (original upstream files)
+│   ├── config.json           # Example config (not used - see config.json below)
+│   ├── feedland.js           # Application entry point
+│   ├── package.json          # Dependencies
+│   ├── docs/
+│   │   └── setup.sql         # Database schema (mounted into MySQL container)
 │   └── ...
 ├── Dockerfile                # New: Builds FeedLand container
 ├── docker-compose.yml        # New: Orchestrates all services
-├── config.json               # New: Docker-specific config
-├── init-db.sql              # New: Database schema
+├── config.json               # New: Docker-specific config (mounted into container)
 ├── .env                     # New: Environment variables (create from .env.example)
 ├── .env.example             # New: Template for environment variables
 └── README.docker.md         # New: This file
