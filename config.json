@@ -1,0 +1,77 @@
+{
+	"whatIsThis": "Docker configuration for FeedLand installation with MySQL, Minio (S3), and MailHog",
+
+	"port": 1452,
+
+	"flWebsocketEnabled": true,
+	"websocketPort": 1462,
+	"urlWebsocketServerForClient": "ws://localhost:1462/",
+
+	"myDomain": "localhost:1452",
+	"urlFeedlandApp": "http://localhost:1452/",
+
+	"smtpHost": "mailhog",
+	"smtpPort": 1025,
+	"smtpUsername": "",
+	"smtpPassword": "",
+
+	"mailSender": "feedland@localhost",
+	"confirmEmailSubject": "FeedLand confirmation",
+	"confirmationExpiresAfter": 86400,
+	"urlServerForEmail": "http://localhost:1452/",
+	"flUseDatabaseForConfirmations": true,
+
+	"database": {
+		"host": "mysql",
+		"port": 3306,
+		"user": "feedland",
+		"password": "feedland",
+		"charset": "utf8mb4",
+		"connectionLimit": 100,
+		"database": "feedland",
+		"debug": false,
+		"flLogQueries": false,
+		"flQueueAllRequests": false,
+		"flUseMySql2": true
+	},
+
+	"flUseTwitterIdentity": false,
+	"flEnableNewUsers": true,
+	"flBackupOnStartup": false,
+
+	"flNewsProducts": false,
+	"flUserFeeds": true,
+	"flLikesFeeds": true,
+
+	"urlForFeeds": "http://localhost:9000/feedland/feeds/",
+	"s3PathForFeeds": "/feedland/feeds/",
+	"s3LikesPath": "/feedland/likes/",
+	"urlNewsProducts": "http://localhost:9000/feedland/newsproducts/",
+
+	"maxRiverItems": 175,
+	"maxNewFeedSubscriptions": 250,
+
+	"flUpdateFeedsInBackground": true,
+	"minSecsBetwFeedChecks": 15,
+
+	"productName": "FeedLand",
+	"productNameForDisplay": "FeedLand",
+
+	"urlServerHomePageSource": "http://scripting.com/code/feedland/home/index.html",
+
+	"flUseRiverCache": true,
+	"ctSecsLifeRiverCache": 300,
+
+	"githubBackup": {
+		"enabled": false,
+		"username": "",
+		"password": "",
+		"repo": "feedlandServer",
+		"basepath": "backups/",
+		"committer": {
+			"name": "FeedLand Admin",
+			"email": "admin@localhost"
+		},
+		"message": "."
+	}
+}
