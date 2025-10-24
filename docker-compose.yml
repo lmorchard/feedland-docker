@@ -9,8 +9,9 @@ services:
     ports:
       - "${MYSQL_PORT:-3306}:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
-      - ./feedlandInstall-main/docs/setup.sql:/docker-entrypoint-initdb.d/01-schema.sql:Z
+      - ./data/mysql:/var/lib/mysql:Z
+      - ./feedlandInstall-main/docs/setup.sql:/setup.sql:Z
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:Z
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
@@ -27,7 +28,7 @@ services:
       - "${MINIO_API_PORT:-9000}:9000"
       - "${MINIO_CONSOLE_PORT:-9001}:9001"
     volumes:
-      - minio_data:/data
+      - ./data/minio:/data:Z
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
       interval: 30s
@@ -72,7 +73,3 @@ services:
     environment:
       NODE_ENV: ${NODE_ENV:-development}
     restart: unless-stopped
-
-volumes:
-  mysql_data:
-  minio_data:

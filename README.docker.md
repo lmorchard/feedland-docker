@@ -11,9 +11,10 @@ This directory contains a complete Docker-based setup for running FeedLand local
 
 ## Quick Start
 
-1. **Copy the environment file**:
+1. **Copy the environment and config files**:
    ```bash
    cp .env.example .env
+   cp config.json-example config.json
    ```
 
    Edit `.env` if you want to customize ports or credentials.
@@ -100,10 +101,13 @@ docker compose down
 ### Stop and Remove All Data
 
 ```bash
-docker compose down -v
+docker compose down
+rm -rf data/
 ```
 
 ⚠️ This will delete the database and all stored content!
+
+Note: Data is stored in `./data/mysql` and `./data/minio` directories for easy access and backup.
 
 ### Access MySQL Database
 
@@ -174,6 +178,11 @@ feedland/
 │   ├── docs/
 │   │   └── setup.sql         # Database schema (mounted into MySQL container)
 │   └── ...
+├── data/                     # New: Persistent data (in .gitignore)
+│   ├── mysql/                # MySQL database files
+│   └── minio/                # Minio object storage files
+├── docker-entrypoint-initdb.d/  # New: MySQL initialization scripts
+│   └── 01-init.sh            # Wrapper script to run setup.sql
 ├── Dockerfile                # New: Builds FeedLand container
 ├── docker-compose.yml        # New: Orchestrates all services
 ├── config.json               # New: Docker-specific config (mounted into container)
@@ -190,6 +199,36 @@ All services run on a shared Docker network and communicate using service names:
 - FeedLand connects to MailHog at hostname `mailhog`
 - FeedLand connects to Minio at hostname `minio` (but uses localhost URLs for browser access)
 
+## Backup and Restore
+
+All persistent data is stored in the `./data/` directory, making backups simple:
+
+### Backup
+
+```bash
+# Stop services to ensure data consistency
+docker compose down
+
+# Backup data directory
+tar -czf feedland-backup-$(date +%Y%m%d).tar.gz data/
+
+# Restart services
+docker compose up -d
+```
+
+### Restore
+
+```bash
+# Stop services
+docker compose down
+
+# Restore data
+tar -xzf feedland-backup-YYYYMMDD.tar.gz
+
+# Restart services
+docker compose up -d
+```
+
 ## Production Deployment
 
 For production use, consider:
@@ -199,7 +238,7 @@ For production use, consider:
 3. Configure proper S3 credentials if using real AWS S3
 4. Replace MailHog with real SMTP credentials
 5. Set up SSL/TLS termination (reverse proxy recommended)
-6. Configure backups for MySQL and Minio volumes
+6. Set up automated backups of the `./data/` directory
 7. Review security settings in all services
 
 ## Next Steps
