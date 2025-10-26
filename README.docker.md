@@ -2,6 +2,10 @@
 
 This directory contains a complete Docker-based setup for running FeedLand locally with all required services.
 
+This is not (currently) for external hosting, just playing with it on a laptop. But that might change?
+
+(see also: [scripting/feedlandInstall](https://github.com/scripting/feedlandInstall/blob/main/docs/setup.md))
+
 ## Services Included
 
 - **FeedLand Application**: The main Node.js application
@@ -10,6 +14,8 @@ This directory contains a complete Docker-based setup for running FeedLand local
 - **MailHog**: Email testing tool that captures all outgoing emails
 
 ## Quick Start
+
+0. Download [main.zip from feedlandInstall](https://github.com/scripting/feedlandInstall/archive/refs/heads/main.zip) and expand it - this should produce the directory feedlandInstall-main/
 
 1. **Copy the environment and config files**:
    ```bash
